@@ -1,0 +1,38 @@
+{
+  "name": "dsh-grok-is-this-true",
+  "version": "0.1.0",
+  "description": "Global /verify + /verify-result commands: independent background single-call review of the latest delivery report (\"is this true?\"), never recorded into session history and cache-neutral",
+  "license": "MIT",
+  "author": "iseri_tomori",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepare": "tsdown",
+    "build": "tsdown"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "devDependencies": {
+    "tsdown": "^0.22.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

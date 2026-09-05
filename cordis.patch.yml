@@ -1,0 +1,8 @@
+# ds-h-@grok-is-this-true bundle patch: inserts the global /verify and
+# /verify-result command rows into the profile's plugin composition.
+# Plain-context registration makes the commands available in every agent preset
+# and mode of the profile.
+
+- insert:
+    - id: ds-h-@grok-is-this-true
+      name: dsh-grok-is-this-true
