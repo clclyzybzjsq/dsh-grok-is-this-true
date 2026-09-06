@@ -55,7 +55,7 @@ DeepSeek Harness（dsh）全局命令插件：`/verify` + `/verify-result` 召�
 ### 从 GitHub
 
 ```sh
-dsh plugin --profile web add github:<owner>/dsh-grok-is-this-true
+dsh plugin --profile web add github:clclyzybzjsq/dsh-grok-is-this-true
 ```
 
 Git 安装取的是源码而非构建产物，因此 pnpm 会运行包的 `prepare` 脚本以生成 `lib/`。pnpm ≥ 10 默认拒绝运行 git 依赖的 `prepare`，首次 `add` 会失败并打印确切的包 key；把该 key 复制进 profile 的 `pnpm-workspace.yaml`：
@@ -65,7 +65,7 @@ allowBuilds:
   dsh-grok-is-this-true: true
 ```
 
-然后重新执行 `add`。该放行意味着允许在安装时执行此包代码——只放行你信任的包，并建议固定 commit（`github:<owner>/dsh-grok-is-this-true#<sha>`）。完成后再（重）启动一次 `dsh web`，组合生效。
+然后重新执行 `add`。该放行意味着允许在安装时执行此包代码——只放行你信任的包，并建议固定 commit（`github:clclyzybzjsq/dsh-grok-is-this-true#<sha>`）。完成后再（重）启动一次 `dsh web`，组合生效。
 
 > 从旧版迁移：若此前在 harness 工作区安装的是 `@deepseek-ai/dsh-grok-is-this-true`，请先 `dsh plugin --profile web remove @deepseek-ai/dsh-grok-is-this-true` 再安装本包，避免新旧两个 bundle 同时向组合插入同一组 `/verify` / `/verify-result` 命令。
 
@@ -98,13 +98,13 @@ pnpm install    # 安装 tsdown 并运行 prepare，生成 lib/
 
 ## 分发
 
-这是标准的 dsh bundle：`package.json` 声明 `dsh.bundle`（patch `cordis.patch.yml` 向 profile 组合插入 `ds-h-@grok-is-this-true` 行）。在你的 GitHub 账号下新建同名仓库并把本目录推上去后，用户即可用上面的 `github:<owner>/dsh-grok-is-this-true` 方式安装；也可 `pnpm pack` 分发 tarball。
+这是标准的 dsh bundle：`package.json` 声明 `dsh.bundle`（patch `cordis.patch.yml` 向 profile 组合插入 `ds-h-@grok-is-this-true` 行）。在你的 GitHub 账号下新建同名仓库并把本目录推上去后，用户即可用上面的 `github:clclyzybzjsq/dsh-grok-is-this-true` 方式安装；也可 `pnpm pack` 分发 tarball。
 
 ## 已知限制
 
 - 仅审核"最近一次交付"（会话表面上最后一条非空 assistant 消息）；有更细粒度需求可后续扩展 `/verify <目标>`。
 - 审核结论仅存进程内存，不跨会话、不跨进程；如需留存报告可让主 agent 把 `/verify-result` 的文本转存到工作区文件（那属于用户主动行为）。
-- `lib/index.js` 零运行时依赖（全部类型导入 + esbuild 擦除），与 `dsh-command-btw` 相同，可脱离 harness 独立加载。
+- `lib/index.js` 零运行时依赖（全部类型导入 + esbuild 擦除），与 `dsh-btw` 相同，可脱离 harness 独立加载。
 
 ## License
 

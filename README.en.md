@@ -55,7 +55,7 @@ Prerequisites: a dsh installation (the `dsh` CLI) and a target profile (the defa
 ### From GitHub
 
 ```sh
-dsh plugin --profile web add github:<owner>/dsh-grok-is-this-true
+dsh plugin --profile web add github:clclyzybzjsq/dsh-grok-is-this-true
 ```
 
 A git install fetches sources, not built artifacts, so pnpm runs the package's `prepare` script to build `lib/`. pnpm ≥ 10 refuses to run a git dependency's `prepare` until explicitly allowed — the first `add` fails and dsh prints the exact package key; copy it into the profile's `pnpm-workspace.yaml`:
@@ -65,7 +65,7 @@ allowBuilds:
   dsh-grok-is-this-true: true
 ```
 
-then re-run the `add`. That allowance is permission to execute the package's code at install time; only allow packages whose source you trust, and pin a commit: `github:<owner>/dsh-grok-is-this-true#<sha>`. Then (re)start your `dsh web` once so the new row composes.
+then re-run the `add`. That allowance is permission to execute the package's code at install time; only allow packages whose source you trust, and pin a commit: `github:clclyzybzjsq/dsh-grok-is-this-true#<sha>`. Then (re)start your `dsh web` once so the new row composes.
 
 > Migrating from the old package: if you previously installed `@deepseek-ai/dsh-grok-is-this-true` in the harness workspace, run `dsh plugin --profile web remove @deepseek-ai/dsh-grok-is-this-true` before installing this one, so old and new bundles do not both insert the same `/verify` / `/verify-result` commands into the composition.
 
@@ -98,13 +98,13 @@ The `prepare` script is self-contained (builds from `src/` with a dedicated tsdo
 
 ## Distribution
 
-This is a standard dsh bundle: `package.json` declares `dsh.bundle` (patch `cordis.patch.yml` inserts the `ds-h-@grok-is-this-true` row into the profile composition). Create a repository under your GitHub account, push this directory, and users install with `github:<owner>/dsh-grok-is-this-true`; or distribute tarballs with `pnpm pack`.
+This is a standard dsh bundle: `package.json` declares `dsh.bundle` (patch `cordis.patch.yml` inserts the `ds-h-@grok-is-this-true` row into the profile composition). Create a repository under your GitHub account, push this directory, and users install with `github:clclyzybzjsq/dsh-grok-is-this-true`; or distribute tarballs with `pnpm pack`.
 
 ## Known limitations
 
 - Reviews only the "most recent delivery" (the last non-empty assistant message on the session surface); finer-grained targets can be added later as `/verify <target>`.
 - The verdict lives only in process memory — it does not survive sessions or processes; to keep a report, have the main agent write the `/verify-result` text to a workspace file (that is a deliberate user action).
-- `lib/index.js` has zero runtime dependencies (all type imports, erased at build) — the same as `dsh-command-btw` — and can be loaded standalone outside the harness.
+- `lib/index.js` has zero runtime dependencies (all type imports, erased at build) — the same as `dsh-btw` — and can be loaded standalone outside the harness.
 
 ## License
 
